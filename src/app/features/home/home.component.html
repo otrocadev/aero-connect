@@ -13,7 +13,7 @@
       <mat-form-field appearance="outline" class="search-form__field">
         <mat-label>Origen</mat-label>
         <mat-select name="origin" [(ngModel)]="origin" required>
-          @for (airport of airports; track airport.code) {
+          @for (airport of airports(); track airport.code) {
             <mat-option [value]="airport.code">{{ airport.city }} ({{ airport.code }})</mat-option>
           }
         </mat-select>
@@ -22,7 +22,7 @@
       <mat-form-field appearance="outline" class="search-form__field">
         <mat-label>Destino</mat-label>
         <mat-select name="destination" [(ngModel)]="destination" required>
-          @for (airport of airports; track airport.code) {
+          @for (airport of airports(); track airport.code) {
             <mat-option [value]="airport.code">{{ airport.city }} ({{ airport.code }})</mat-option>
           }
         </mat-select>
@@ -30,7 +30,9 @@
 
       <mat-form-field appearance="outline" class="search-form__field">
         <mat-label>Fecha de salida</mat-label>
-        <input matInput name="date" [(ngModel)]="date" type="date" required />
+        <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="date" required readonly />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="search-form__field search-form__field--small">

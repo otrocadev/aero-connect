@@ -1,5 +1,10 @@
 <header class="header">
   <div class="header__inner">
+    @if (navigationHistory.canGoBack()) {
+      <button mat-icon-button appGoBack class="header__back" aria-label="Volver">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    }
     <a routerLink="/" class="header__logo">
       <span class="header__logo-icon">✈</span>
       <span class="header__logo-text">AeroConnect</span>

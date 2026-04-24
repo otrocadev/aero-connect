@@ -54,6 +54,17 @@
         { "code": "LPA", "city": "Las Palmas" }
       ]
 
+# CORS preflight para /api/airports
+- request:
+    url: /api/airports
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "POST, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
 # ─────────────────────────────────────────────
 # FLIGHTS — Search
 # ─────────────────────────────────────────────
@@ -300,3 +311,87 @@
       Access-Control-Allow-Origin: "*"
       Access-Control-Allow-Methods: "POST, OPTIONS"
       Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+# ─────────────────────────────────────────────
+# ERROR TESTING — simulación de errores HTTP
+# Usar para probar el errorInterceptor
+# ─────────────────────────────────────────────
+
+# 500 — Internal Server Error (catchError → status 500)
+- request:
+    url: /api/error/500
+    method: GET
+  response:
+    status: 500
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "error": "INTERNAL_ERROR",
+        "message": "Internal server error. Please try again later."
+      }
+
+# 404 — Not Found (catchError → status 404)
+- request:
+    url: /api/error/404
+    method: GET
+  response:
+    status: 404
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "error": "NOT_FOUND",
+        "message": "The requested resource was not found."
+      }
+
+# 403 — Forbidden (catchError → status 403)
+- request:
+    url: /api/error/403
+    method: GET
+  response:
+    status: 403
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "error": "FORBIDDEN",
+        "message": "You do not have permission to perform this action."
+      }
+
+# 401 — Unauthorized (catchError → status 401)
+- request:
+    url: /api/error/401
+    method: GET
+  response:
+    status: 401
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "error": "UNAUTHORIZED",
+        "message": "Unauthorized. Please log in again."
+      }
+
+# 200 con success: false — error de negocio (tap → success false)
+- request:
+    url: /api/error/business
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "success": false,
+        "error": {
+          "code": "FLIGHT_UNAVAILABLE",
+          "message": "El vuelo solicitado no está disponible.",
+          "details": "No quedan plazas en la clase seleccionada."
+        }
+      }

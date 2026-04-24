@@ -15,6 +15,11 @@
     justify-content: space-between;
   }
 
+  &__back {
+    color: var(--color-on-primary);
+    flex-shrink: 0;
+  }
+
   &__logo {
     display: flex;
     align-items: center;

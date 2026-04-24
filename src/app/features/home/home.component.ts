@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AirportService } from '../../core/services/airports.service';
 
 @Component({
   selector: 'app-home',
@@ -25,28 +26,23 @@ import { MatNativeDateModule } from '@angular/material/core';
 })
 export class HomeComponent {
   private _router = inject(Router);
+  private _airportService = inject(AirportService);
 
   origin = '';
   destination = '';
-  date = '';
+  date: Date | null = null;
   passengers = 1;
 
-  readonly airports = [
-    { code: 'BCN', city: 'Barcelona' },
-    { code: 'MAD', city: 'Madrid' },
-    { code: 'VLC', city: 'Valencia' },
-    { code: 'SVQ', city: 'Sevilla' },
-    { code: 'PMI', city: 'Palma de Mallorca' },
-    { code: 'LPA', city: 'Las Palmas' },
-  ];
+  airports = this._airportService.airports;
 
   search(): void {
     if (!this.origin || !this.destination || !this.date) return;
+    const dateStr = this.date.toISOString().split('T')[0];
     this._router.navigate(['/flights'], {
       queryParams: {
         origin: this.origin,
         destination: this.destination,
-        date: this.date,
+        date: dateStr,
         passengers: this.passengers,
       },
     });
