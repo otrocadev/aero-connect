@@ -1,0 +1,18 @@
+<aside class="filters-panel">
+    <h2 class="filters-panel__title">Filtros</h2>
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline" class="filters-panel__field">
+            <mat-label>Precio máximo (€)</mat-label>
+            <input matInput type="number" formControlName="maxPrice" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filters-panel__field">
+            <mat-label>Ordenar por</mat-label>
+            <mat-select formControlName="sortBy">
+            <mat-option value="price">Precio</mat-option>
+            <mat-option value="departure">Hora de salida</mat-option>
+            <mat-option value="duration">Duración</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</aside>

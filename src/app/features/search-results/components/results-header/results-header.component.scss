@@ -1,0 +1,22 @@
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+
+  &__back { color: var(--color-primary); }
+
+  &__title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--color-text);
+  }
+
+  &__meta {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+  }
+}

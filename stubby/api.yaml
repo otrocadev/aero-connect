@@ -163,31 +163,7 @@
         }
       ]
 
-# Fallback genérico para cualquier búsqueda de vuelos
-- request:
-    url: /api/flights
-    method: GET
-  response:
-    status: 200
-    headers:
-      content-type: application/json
-      Access-Control-Allow-Origin: "*"
-    body: >
-      [
-        {
-          "id": "fl-099",
-          "flightNumber": "AC9999",
-          "origin": { "code": "BCN", "city": "Barcelona", "country": "España" },
-          "destination": { "code": "VLC", "city": "Valencia", "country": "España" },
-          "departureDate": "2025-08-01T10:00:00",
-          "arrivalDate": "2025-08-01T11:05:00",
-          "durationMinutes": 65,
-          "basePrice": 38,
-          "availableSeats": 60,
-          "airline": "AeroConnect",
-          "status": "scheduled"
-        }
-      ]
+
 
 # ─────────────────────────────────────────────
 # FLIGHTS — Detail (by id)
@@ -260,7 +236,31 @@
         "airline": "AeroConnect",
         "status": "scheduled"
       }
-
+# Fallback genérico para cualquier búsqueda de vuelos
+- request:
+    url: /api/flights
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      [
+        {
+          "id": "fl-099",
+          "flightNumber": "AC9999",
+          "origin": { "code": "BCN", "city": "Barcelona", "country": "España" },
+          "destination": { "code": "VLC", "city": "Valencia", "country": "España" },
+          "departureDate": "2025-08-01T10:00:00",
+          "arrivalDate": "2025-08-01T11:05:00",
+          "durationMinutes": 65,
+          "basePrice": 38,
+          "availableSeats": 60,
+          "airline": "AeroConnect",
+          "status": "scheduled"
+        }
+      ]
 # ─────────────────────────────────────────────
 # BOOKINGS — Create (protegido con Bearer token)
 # ─────────────────────────────────────────────
@@ -395,3 +395,402 @@
           "details": "No quedan plazas en la clase seleccionada."
         }
       }
+
+# ─────────────────────────────────────────────
+# PASSENGERS — Lista de perfiles de pasajero
+# ─────────────────────────────────────────────
+- request:
+    url: /api/passengers
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      [
+        {
+          "id": "p-001",
+          "firstName": "Ana",
+          "lastName": "García López",
+          "email": "ana.garcia@email.com",
+          "phone": "+34 612 345 678",
+          "documentType": "dni",
+          "documentNumber": "12345678A",
+          "nationality": "Española",
+          "frequentFlyer": true,
+          "totalFlights": 47
+        },
+        {
+          "id": "p-002",
+          "firstName": "James",
+          "lastName": "Smith",
+          "email": "james.smith@email.co.uk",
+          "phone": "+44 7700 900123",
+          "documentType": "passport",
+          "documentNumber": "GB123456789",
+          "nationality": "Británica",
+          "frequentFlyer": false,
+          "totalFlights": 3
+        },
+        {
+          "id": "p-003",
+          "firstName": "Carlos",
+          "lastName": "Rodríguez Martín",
+          "email": "carlos.rodriguez@email.com",
+          "phone": "+34 698 765 432",
+          "documentType": "nie",
+          "documentNumber": "X1234567L",
+          "nationality": "Venezolana",
+          "frequentFlyer": true,
+          "totalFlights": 28
+        },
+        {
+          "id": "p-004",
+          "firstName": "María",
+          "lastName": "Fernández Ruiz",
+          "email": "maria.fernandez@email.com",
+          "phone": "+34 655 111 222",
+          "documentType": "dni",
+          "documentNumber": "87654321Z",
+          "nationality": "Española",
+          "frequentFlyer": false,
+          "totalFlights": 12
+        },
+        {
+          "id": "p-005",
+          "firstName": "Lena",
+          "lastName": "Müller",
+          "email": "lena.muller@email.de",
+          "phone": "+49 176 12345678",
+          "documentType": "passport",
+          "documentNumber": "DE987654321",
+          "nationality": "Alemana",
+          "frequentFlyer": true,
+          "totalFlights": 61
+        }
+      ]
+
+# PASSENGERS — Crear nuevo pasajero
+- request:
+    url: /api/passengers
+    method: POST
+    headers:
+      content-type: application/json
+  response:
+    status: 201
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-006",
+        "firstName": "Nuevo",
+        "lastName": "Pasajero",
+        "email": "nuevo@email.com",
+        "phone": "",
+        "documentType": "dni",
+        "documentNumber": "",
+        "nationality": "",
+        "frequentFlyer": false,
+        "totalFlights": 0
+      }
+
+# CORS preflight para /api/passengers
+- request:
+    url: /api/passengers
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, POST, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+# ─────────────────────────────────────────────
+# PASSENGERS — Detalle por ID
+# ─────────────────────────────────────────────
+- request:
+    url: /api/passengers/p-001
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-001",
+        "firstName": "Ana",
+        "lastName": "García López",
+        "email": "ana.garcia@email.com",
+        "phone": "+34 612 345 678",
+        "documentType": "dni",
+        "documentNumber": "12345678A",
+        "nationality": "Española",
+        "frequentFlyer": true,
+        "totalFlights": 47
+      }
+
+- request:
+    url: /api/passengers/p-002
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-002",
+        "firstName": "James",
+        "lastName": "Smith",
+        "email": "james.smith@email.co.uk",
+        "phone": "+44 7700 900123",
+        "documentType": "passport",
+        "documentNumber": "GB123456789",
+        "nationality": "Británica",
+        "frequentFlyer": false,
+        "totalFlights": 3
+      }
+
+- request:
+    url: /api/passengers/p-003
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-003",
+        "firstName": "Carlos",
+        "lastName": "Rodríguez Martín",
+        "email": "carlos.rodriguez@email.com",
+        "phone": "+34 698 765 432",
+        "documentType": "nie",
+        "documentNumber": "X1234567L",
+        "nationality": "Venezolana",
+        "frequentFlyer": true,
+        "totalFlights": 28
+      }
+
+- request:
+    url: /api/passengers/p-004
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-004",
+        "firstName": "María",
+        "lastName": "Fernández Ruiz",
+        "email": "maria.fernandez@email.com",
+        "phone": "+34 655 111 222",
+        "documentType": "dni",
+        "documentNumber": "87654321Z",
+        "nationality": "Española",
+        "frequentFlyer": false,
+        "totalFlights": 12
+      }
+
+- request:
+    url: /api/passengers/p-005
+    method: GET
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-005",
+        "firstName": "Lena",
+        "lastName": "Müller",
+        "email": "lena.muller@email.de",
+        "phone": "+49 176 12345678",
+        "documentType": "passport",
+        "documentNumber": "DE987654321",
+        "nationality": "Alemana",
+        "frequentFlyer": true,
+        "totalFlights": 61
+      }
+
+# ─────────────────────────────────────────────
+# PASSENGERS — Actualización (PUT)
+# Devuelve el perfil actualizado (simulado)
+# ─────────────────────────────────────────────
+- request:
+    url: /api/passengers/p-001
+    method: PUT
+    headers:
+      content-type: application/json
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-001",
+        "firstName": "Ana",
+        "lastName": "García López",
+        "email": "ana.garcia@email.com",
+        "phone": "+34 612 345 678",
+        "documentType": "dni",
+        "documentNumber": "12345678A",
+        "nationality": "Española",
+        "frequentFlyer": true,
+        "totalFlights": 47
+      }
+
+- request:
+    url: /api/passengers/p-002
+    method: PUT
+    headers:
+      content-type: application/json
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-002",
+        "firstName": "James",
+        "lastName": "Smith",
+        "email": "james.smith@email.co.uk",
+        "phone": "+44 7700 900123",
+        "documentType": "passport",
+        "documentNumber": "GB123456789",
+        "nationality": "Británica",
+        "frequentFlyer": false,
+        "totalFlights": 3
+      }
+
+- request:
+    url: /api/passengers/p-003
+    method: PUT
+    headers:
+      content-type: application/json
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-003",
+        "firstName": "Carlos",
+        "lastName": "Rodríguez Martín",
+        "email": "carlos.rodriguez@email.com",
+        "phone": "+34 698 765 432",
+        "documentType": "nie",
+        "documentNumber": "X1234567L",
+        "nationality": "Venezolana",
+        "frequentFlyer": true,
+        "totalFlights": 28
+      }
+
+- request:
+    url: /api/passengers/p-004
+    method: PUT
+    headers:
+      content-type: application/json
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-004",
+        "firstName": "María",
+        "lastName": "Fernández Ruiz",
+        "email": "maria.fernandez@email.com",
+        "phone": "+34 655 111 222",
+        "documentType": "dni",
+        "documentNumber": "87654321Z",
+        "nationality": "Española",
+        "frequentFlyer": false,
+        "totalFlights": 12
+      }
+
+- request:
+    url: /api/passengers/p-005
+    method: PUT
+    headers:
+      content-type: application/json
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      Access-Control-Allow-Origin: "*"
+    body: >
+      {
+        "id": "p-005",
+        "firstName": "Lena",
+        "lastName": "Müller",
+        "email": "lena.muller@email.de",
+        "phone": "+49 176 12345678",
+        "documentType": "passport",
+        "documentNumber": "DE987654321",
+        "nationality": "Alemana",
+        "frequentFlyer": true,
+        "totalFlights": 61
+      }
+
+# CORS preflight para /api/passengers/:id
+- request:
+    url: /api/passengers/p-001
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+- request:
+    url: /api/passengers/p-002
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+- request:
+    url: /api/passengers/p-003
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+- request:
+    url: /api/passengers/p-004
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"
+
+- request:
+    url: /api/passengers/p-005
+    method: OPTIONS
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Origin: "*"
+      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+      Access-Control-Allow-Headers: "Content-Type, Authorization"

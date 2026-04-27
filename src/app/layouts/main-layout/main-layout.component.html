@@ -11,6 +11,7 @@
     </a>
     <nav class="header__nav">
       <a routerLink="/flights" mat-button>Buscar vuelos</a>
+      <a routerLink="/passengers" mat-button>Mis pasajeros</a>
       @if (isAuthenticated()) {
         <a routerLink="/booking" mat-button>Mi reserva</a>
         <button mat-stroked-button (click)="logout()">Salir</button>

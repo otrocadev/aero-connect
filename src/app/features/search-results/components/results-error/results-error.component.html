@@ -1,0 +1,7 @@
+@if(error()){
+    <div class="results-error">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ error() }}</p>
+        <button mat-flat-button appGoBack>Volver a buscar</button>
+    </div>
+}

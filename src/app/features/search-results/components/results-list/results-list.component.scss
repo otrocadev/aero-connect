@@ -1,0 +1,35 @@
+
+.results-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+.flight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__count {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 60px 0;
+    color: var(--color-text-secondary);
+
+    mat-icon { font-size: 48px; width: 48px; height: 48px; }
+  }
+}

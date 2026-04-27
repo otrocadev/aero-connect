@@ -1,0 +1,16 @@
+<div class="results-header">
+    <button mat-icon-button appGoBack class="results-header__back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="results-header__info">
+    @if(searchParams(); as search) {
+      <h1 class="results-header__title">
+        {{ search.origin }} → {{ search.destination }}
+      </h1>
+      <p class="results-header__meta">1
+        {{ search.date | date:'longDate':'':'es' }} ·
+        {{ search.passengers }} pasajero{{ search.passengers > 1 ? 's' : '' }}
+      </p>  
+    }  
+    </div>
+</div>

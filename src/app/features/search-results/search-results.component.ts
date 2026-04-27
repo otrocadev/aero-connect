@@ -1,50 +1,38 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
-import { FlightService } from '../../core/services/flight.service';
-import { Flight, SearchParams } from '../../core/models/flight.model';
-import { StatusBadgeComponent } from '../../shared/components/status-badge/status-badge.component';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { ResultsHeaderComponent } from "./components/results-header/results-header.component";
+import { ResultsListComponent } from "./components/results-list/results-list.component";
+import { ResultsSpinnerComponent } from "./components/results-spinner/results-spinner.component";
+import { ResultsErrorComponent } from "./components/results-error/results-error.component";
+import { ResultsFiltersComponent } from "./components/results-filters/results-filters.component";
+import { FlightSearchService } from './services/flight-search.service';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
   imports: [
-    MatProgressSpinnerModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    FormsModule,
-    StatusBadgeComponent,
-    CurrencyPipe,
-    DatePipe,
+    ResultsHeaderComponent,
+    ResultsListComponent,
+    ResultsSpinnerComponent,
+    ResultsErrorComponent,
+    ResultsFiltersComponent
+  ],
+  providers: [
+    FlightSearchService
   ],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.scss',
 })
-export class SearchResultsComponent implements OnInit {
+export class SearchResultsComponent {
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
-  private _flightService = inject(FlightService);
+  private _flightSearch = inject(FlightSearchService);
 
-  flights: Flight[] = [];
-  isLoading = false;
-  error: string | null = null;
-  searchParams!: SearchParams;
+  isLoading = this._flightSearch.isLoading;
+  error = this._flightSearch.error;
 
-  // Filtros inline (estos irán a FlightFiltersComponent)
-  maxPrice: number | null = null;
-  sortBy: 'price' | 'departure' | 'duration' = 'price';
 
-  get filteredFlights(): Flight[] {
+  /*get filteredFlights(): Flight[] {
     let result = [...this.flights];
     if (this.maxPrice !== null) {
       result = result.filter(f => f.basePrice <= this.maxPrice!);
@@ -87,13 +75,5 @@ export class SearchResultsComponent implements OnInit {
     this._router.navigate(['/booking', flight.id]);
   }
 
-  formatDuration(minutes: number): string {
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return `${h}h ${m}m`;
-  }
-
-  goBack(): void {
-    this._router.navigate(['/']);
-  }
+  */
 }
