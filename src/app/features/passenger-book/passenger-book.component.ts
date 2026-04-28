@@ -23,7 +23,6 @@ import { UpperCasePipe } from '@angular/common';
 import { PassengerBookFacade } from './services/passenger-book.facade';
 import { PassengerProfile } from '../../core/models/passenger.model';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-passenger-book',
@@ -44,7 +43,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './passenger-book.component.html',
   styleUrl: './passenger-book.component.scss',
 })
-export class PassengerBookComponent implements OnInit {
+export class PassengerBookComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   readonly facade = inject(PassengerBookFacade);
 
@@ -76,6 +75,9 @@ export class PassengerBookComponent implements OnInit {
   // que actualizamos en los sitios donde cambia (markAsDirty / markAsPristine).
   private readonly formDirty = signal(false);
 
+  // ── SUBSCRIPTIONS ─────────────────────────────────────────────────────────────
+  private searchSub!: Subscription;
+
   // ── PROPIEDADES DERIVADAS (computed) ──────────────────────────────────────────
   // computed() sólo se recalcula cuando alguna de sus señales dependientes cambia.
   canSave = computed(
@@ -91,12 +93,11 @@ export class PassengerBookComponent implements OnInit {
     return p ? `${p.firstName} ${p.lastName}` : '';
   });
 
-  get hasUnsavedChanges(): boolean {
-    return (
-      this.passengerForm.dirty &&
-      (this.facade.selectedPassenger() !== null || this.facade.isCreating())
-    );
-  }
+  hasUnsavedChanges = computed(
+    () =>
+      this.formDirty() &&
+      (this.facade.selectedPassenger() !== null || this.facade.isCreating()),
+  );
 
   // ── CICLO DE VIDA ─────────────────────────────────────────────────────────────
 
@@ -159,6 +160,6 @@ export class PassengerBookComponent implements OnInit {
     // porque save() es void y no devuelve Observable.
     // Si el guardado falla, el formulario ya está como pristine.
     this.passengerForm.markAsPristine();
-    this.formDirty.set(true);
+    this.formDirty.set(false);
   }
 }

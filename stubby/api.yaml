@@ -55,15 +55,15 @@
       ]
 
 # CORS preflight para /api/airports
-- request:
-    url: /api/airports
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/airports
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "POST, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
 # ─────────────────────────────────────────────
 # FLIGHTS — Search
@@ -213,29 +213,6 @@
       }
 
 - request:
-    url: /api/flights/fl-003
-    method: GET
-  response:
-    status: 200
-    headers:
-      content-type: application/json
-      Access-Control-Allow-Origin: "*"
-    body: >
-      {
-        "id": "fl-003",
-        "flightNumber": "AC1238",
-        "origin": { "code": "BCN", "city": "Barcelona", "country": "España" },
-        "destination": { "code": "MAD", "city": "Madrid", "country": "España" },
-        "departureDate": "2025-07-15T19:00:00",
-        "arrivalDate": "2025-07-15T20:20:00",
-        "durationMinutes": 80,
-        "basePrice": 89,
-        "availableSeats": 0,
-        "airline": "AeroConnect",
-        "status": "delayed"
-      }
-
-- request:
     url: /api/flights/fl-010
     method: GET
   response:
@@ -257,92 +234,6 @@
         "airline": "AeroConnect",
         "status": "scheduled"
       }
-
-- request:
-    url: /api/flights/fl-011
-    method: GET
-  response:
-    status: 200
-    headers:
-      content-type: application/json
-      Access-Control-Allow-Origin: "*"
-    body: >
-      {
-        "id": "fl-011",
-        "flightNumber": "AC5014",
-        "origin": { "code": "MAD", "city": "Madrid", "country": "España" },
-        "destination": { "code": "PMI", "city": "Palma de Mallorca", "country": "España" },
-        "departureDate": "2025-07-20T16:45:00",
-        "arrivalDate": "2025-07-20T18:05:00",
-        "durationMinutes": 80,
-        "basePrice": 55,
-        "availableSeats": 20,
-        "airline": "AeroConnect",
-        "status": "scheduled"
-      }
-
-# CORS preflight para /api/flights (search)
-- request:
-    url: /api/flights
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
-# CORS preflight para /api/flights/:id (detail)
-- request:
-    url: /api/flights/fl-001
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
-- request:
-    url: /api/flights/fl-002
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
-- request:
-    url: /api/flights/fl-003
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
-- request:
-    url: /api/flights/fl-010
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
-- request:
-    url: /api/flights/fl-011
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
-
 # Fallback genérico para cualquier búsqueda de vuelos
 - request:
     url: /api/flights
@@ -392,30 +283,31 @@
         "destination": "MAD",
         "departureDate": "2025-07-15T07:00:00",
         "passengers": [
-        {
-          "id": "p-001",
-          "firstName": "Ana",
-          "lastName": "García López",
-          "email": "ana.garcia@email.com",
-          "phone": "+34 612 345 678",
-          "documentType": "dni",
-          "documentNumber": "12345678A",
-          "nationality": "Española",
-          "frequentFlyer": true,
-          "totalFlights": 47
-        },
-        {
-          "id": "p-002",
-          "firstName": "James",
-          "lastName": "Smith",
-          "email": "james.smith@email.co.uk",
-          "phone": "+44 7700 900123",
-          "documentType": "passport",
-          "documentNumber": "GB123456789",
-          "nationality": "Británica",
-          "frequentFlyer": false,
-          "totalFlights": 3
-        }],
+          {
+            "id": "p-001",
+            "firstName": "Ana",
+            "lastName": "García López",
+            "email": "ana.garcia@email.com",
+            "phone": "+34 612 345 678",
+            "documentType": "dni",
+            "documentNumber": "12345678A",
+            "nationality": "Española",
+            "frequentFlyer": true,
+            "totalFlights": 47
+          },
+          {
+            "id": "p-002",
+            "firstName": "James",
+            "lastName": "Smith",
+            "email": "james.smith@email.co.uk",
+            "phone": "+44 7700 900123",
+            "documentType": "passport",
+            "documentNumber": "GB123456789",
+            "nationality": "Británica",
+            "frequentFlyer": false,
+            "totalFlights": 3
+          }
+        ],
         "totalPrice": 118,
         "status": "confirmed",
         "createdAt": "2025-04-22T10:00:00"
@@ -608,7 +500,6 @@
     method: POST
     headers:
       content-type: application/json
-    body: .*
   response:
     status: 201
     headers:

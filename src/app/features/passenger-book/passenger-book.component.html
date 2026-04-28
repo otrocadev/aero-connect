@@ -46,7 +46,6 @@
 
       <!-- Estado de carga -->
       @if (facade.isLoading()) {
-      @if (facade.isLoading()) {
         <div class="passenger-panel__loading">
           <mat-spinner diameter="36" />
           <span>Cargando pasajeros...</span>
@@ -60,12 +59,10 @@
         <div class="passenger-panel__error">
           <mat-icon>error_outline</mat-icon>
           <p>{{ facade.error() }}</p>
-          <p>{{ facade.error() }}</p>
         </div>
       }
 
       <!-- Lista de pasajeros -->
-      @if (!facade.isLoading()) {
       @if (!facade.isLoading()) {
         <ul class="passenger-list">
           <!-- Item especial: "Nuevo pasajero" mientras se está creando -->
@@ -84,7 +81,6 @@
           }
 
           @for (passenger of facade.filteredPassengers(); track passenger.id) {
-          @for (passenger of facade.filteredPassengers(); track passenger.id) {
             <li
               class="passenger-list__item"
               [class.passenger-list__item--active]="
@@ -92,7 +88,7 @@
               "
               [class.passenger-list__item--dirty]="
                 facade.selectedPassenger()?.id === passenger.id &&
-                hasUnsavedChanges
+                hasUnsavedChanges()
               "
               (click)="selectPassenger(passenger)"
               role="button"
@@ -119,7 +115,7 @@
                 }
                 @if (
                   facade.selectedPassenger()?.id === passenger.id &&
-                  hasUnsavedChanges
+                  hasUnsavedChanges()
                 ) {
                   <span
                     class="passenger-list__unsaved"
@@ -161,11 +157,9 @@
 
       <!-- Formulario (edición o alta) -->
       @if (facade.selectedPassenger() || facade.isCreating()) {
-      @if (facade.selectedPassenger() || facade.isCreating()) {
         <div class="detail-panel__content">
           <div class="detail-panel__header">
             <div>
-              @if (facade.isCreating()) {
               @if (facade.isCreating()) {
                 <h2 class="detail-panel__name">Nuevo pasajero</h2>
                 <p class="detail-panel__flights">
@@ -173,7 +167,6 @@
                   Rellena el formulario y guarda para añadirlo
                 </p>
               } @else {
-                <h2 class="detail-panel__name">{{ selectedFullName() }}</h2>
                 <h2 class="detail-panel__name">{{ selectedFullName() }}</h2>
                 <p class="detail-panel__flights">
                   <mat-icon>flight</mat-icon>
@@ -195,7 +188,6 @@
 
           <!-- Banner de éxito -->
           @if (facade.saveSuccess()) {
-          @if (facade.saveSuccess()) {
             <div class="detail-panel__success">
               <mat-icon>check_circle</mat-icon>
               {{
@@ -208,10 +200,8 @@
 
           <!-- Banner de error -->
           @if (facade.error()) {
-          @if (facade.error()) {
             <div class="detail-panel__error-banner">
               <mat-icon>error_outline</mat-icon>
-              {{ facade.error() }}
               {{ facade.error() }}
             </div>
           }
@@ -319,7 +309,7 @@
             </div>
 
             <div class="passenger-form__actions">
-              @if (hasUnsavedChanges) {
+              @if (hasUnsavedChanges()) {
                 <span class="passenger-form__dirty-hint"
                   >Tienes cambios sin guardar</span
                 >

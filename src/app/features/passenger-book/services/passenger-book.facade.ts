@@ -1,5 +1,4 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Injectable, computed, inject, signal } from '@angular/core';
 import { PassengerService } from '../../../core/services/passenger.service';
 import { PassengerProfile } from '../../../core/models/passenger.model';
 import { take } from 'rxjs';
@@ -26,7 +25,6 @@ export class PassengerBookFacade {
   // ── ESTADO ───────────────────────────────────────────────────────────────────
   // Propiedades de clase planas: no hay notificación automática de cambios,
   // Angular los detecta sólo porque usa Zone.js y revisión de árbol completo.
-
   public passengers = signal<PassengerProfile[]>([]);
   public searchTerm = signal('');
 
