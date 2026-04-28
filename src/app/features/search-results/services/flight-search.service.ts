@@ -12,35 +12,42 @@ export class FlightSearchService {
   private _maxPrice = signal<number | null>(null);
   private _sortBy = signal<'price' | 'departure' | 'duration'>('price');
 
-  private _flights = toSignal<Flight[] | undefined>(toObservable(this._searchParams).pipe(
-    tap(() => this._isLoading.set(true)),
-    filter(searchParams => !!searchParams),
-    switchMap(searchParams => this._flightService.search(searchParams!).pipe(
-      finalize(() => this._isLoading.set(false))
-    )),
-    catchError(() => {
-      this._error.set('No se han podido cargar los vuelos. Inténtalo de nuevo.');
-      return of([]);
-    }),
-  ));
+  private _flights = toSignal<Flight[] | undefined>(
+    toObservable(this._searchParams).pipe(
+      tap(() => this._isLoading.set(true)),
+      filter((searchParams) => !!searchParams),
+      switchMap((searchParams) =>
+        this._flightService
+          .search(searchParams!)
+          .pipe(finalize(() => this._isLoading.set(false))),
+      ),
+      catchError(() => {
+        this._error.set(
+          'No se han podido cargar los vuelos. Inténtalo de nuevo.',
+        );
+        return of([]);
+      }),
+    ),
+  );
 
-  private _isLoading = signal(false);
-  private _error =  signal<string | null>(null);
+  private readonly _isLoading = signal(false);
+  private readonly _error = signal<string | null>(null);
 
-  searchParams = this._searchParams.asReadonly();
-  maxPrice = this._maxPrice.asReadonly();
-  sortBy = this._sortBy.asReadonly();
-  isLoading = this._isLoading.asReadonly();
-  error = this._error.asReadonly();
+  public searchParams = this._searchParams.asReadonly();
+  public maxPrice = this._maxPrice.asReadonly();
+  public sortBy = this._sortBy.asReadonly();
+  public isLoading = this._isLoading.asReadonly();
+  public error = this._error.asReadonly();
 
   filteredFlights = computed(() => {
-    let result = [...this._flights() || []];
+    let result = [...(this._flights() || [])];
     if (this._maxPrice()) {
-      result = result.filter(f => f.basePrice <= this._maxPrice()!);
+      result = result.filter((f) => f.basePrice <= this._maxPrice()!);
     }
     result = result.sort((a, b) => {
       if (this._sortBy() === 'price') return a.basePrice - b.basePrice;
-      if (this._sortBy() === 'departure') return a.departureDate.localeCompare(b.departureDate);
+      if (this._sortBy() === 'departure')
+        return a.departureDate.localeCompare(b.departureDate);
       return a.durationMinutes - b.durationMinutes;
     });
     return result;
@@ -53,7 +60,7 @@ export class FlightSearchService {
   setMaxPrice(price: number | null): void {
     this._maxPrice.set(price);
   }
-  
+
   setSort(sort: 'price' | 'departure' | 'duration'): void {
     this._sortBy.set(sort);
   }
