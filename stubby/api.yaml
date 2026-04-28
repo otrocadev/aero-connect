@@ -23,15 +23,15 @@
       }
 
 # CORS preflight para /api/auth/login
-- request:
-    url: /api/auth/login
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "POST, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/auth/login
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "POST, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
 # ─────────────────────────────────────────────
 # AIRPORTS
@@ -162,8 +162,6 @@
           "status": "scheduled"
         }
       ]
-
-
 
 # ─────────────────────────────────────────────
 # FLIGHTS — Detail (by id)
@@ -393,7 +391,31 @@
         "origin": "BCN",
         "destination": "MAD",
         "departureDate": "2025-07-15T07:00:00",
-        "passengers": [],
+        "passengers": [
+        {
+          "id": "p-001",
+          "firstName": "Ana",
+          "lastName": "García López",
+          "email": "ana.garcia@email.com",
+          "phone": "+34 612 345 678",
+          "documentType": "dni",
+          "documentNumber": "12345678A",
+          "nationality": "Española",
+          "frequentFlyer": true,
+          "totalFlights": 47
+        },
+        {
+          "id": "p-002",
+          "firstName": "James",
+          "lastName": "Smith",
+          "email": "james.smith@email.co.uk",
+          "phone": "+44 7700 900123",
+          "documentType": "passport",
+          "documentNumber": "GB123456789",
+          "nationality": "Británica",
+          "frequentFlyer": false,
+          "totalFlights": 3
+        }],
         "totalPrice": 118,
         "status": "confirmed",
         "createdAt": "2025-04-22T10:00:00"
@@ -411,15 +433,15 @@
       { "error": "Unauthorized", "message": "Se requiere autenticación." }
 
 # CORS preflight para /api/bookings
-- request:
-    url: /api/bookings
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "POST, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/bookings
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "POST, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
 # ─────────────────────────────────────────────
 # ERROR TESTING — simulación de errores HTTP
@@ -607,15 +629,15 @@
       }
 
 # CORS preflight para /api/passengers
-- request:
-    url: /api/passengers
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, POST, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, POST, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
 # ─────────────────────────────────────────────
 # PASSENGERS — Detalle por ID
@@ -855,52 +877,52 @@
       }
 
 # CORS preflight para /api/passengers/:id
-- request:
-    url: /api/passengers/p-001
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers/p-001
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
-- request:
-    url: /api/passengers/p-002
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers/p-002
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
-- request:
-    url: /api/passengers/p-003
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers/p-003
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
-- request:
-    url: /api/passengers/p-004
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers/p-004
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
 
-- request:
-    url: /api/passengers/p-005
-    method: OPTIONS
-  response:
-    status: 200
-    headers:
-      Access-Control-Allow-Origin: "*"
-      Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
-      Access-Control-Allow-Headers: "Content-Type, Authorization"
+# - request:
+#     url: /api/passengers/p-005
+#     method: OPTIONS
+#   response:
+#     status: 200
+#     headers:
+#       Access-Control-Allow-Origin: "*"
+#       Access-Control-Allow-Methods: "GET, PUT, OPTIONS"
+#       Access-Control-Allow-Headers: "Content-Type, Authorization"
