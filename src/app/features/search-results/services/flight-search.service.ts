@@ -39,7 +39,7 @@ export class FlightSearchService {
   public isLoading = this._isLoading.asReadonly();
   public error = this._error.asReadonly();
 
-  filteredFlights = computed(() => {
+  public filteredFlights = computed(() => {
     let result = [...(this._flights() || [])];
     if (this._maxPrice()) {
       result = result.filter((f) => f.basePrice <= this._maxPrice()!);

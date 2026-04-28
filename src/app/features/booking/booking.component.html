@@ -1,7 +1,7 @@
 <div class="booking-page">
   <div class="booking-page__inner">
-
     <!-- RESUMEN DEL VUELO -->
+    <!-- TODO: Separate this component -->
     <aside class="flight-summary">
       <h2 class="flight-summary__title">Tu vuelo</h2>
       @if (flight) {
@@ -9,22 +9,31 @@
           <div class="flight-summary__route">
             <span class="flight-summary__code">{{ flight.origin.code }}</span>
             <span class="flight-summary__arrow">→</span>
-            <span class="flight-summary__code">{{ flight.destination.code }}</span>
+            <span class="flight-summary__code">{{
+              flight.destination.code
+            }}</span>
           </div>
           <p class="flight-summary__cities">
             {{ flight.origin.city }} · {{ flight.destination.city }}
           </p>
           <p class="flight-summary__date">
-            {{ flight.departureDate | date:'fullDate':'':'es' }}
-            · {{ flight.departureDate | date:'HH:mm' }} – {{ flight.arrivalDate | date:'HH:mm' }}
+            {{ flight.departureDate | date: "fullDate" : "" : "es" }}
+            · {{ flight.departureDate | date: "HH:mm" }} –
+            {{ flight.arrivalDate | date: "HH:mm" }}
           </p>
           <p class="flight-summary__number">Vuelo {{ flight.flightNumber }}</p>
           <div class="flight-summary__price-row">
-            <span>{{ passengers.length }} pasajero{{ passengers.length > 1 ? 's' : '' }}</span>
-            <strong>{{ totalPrice | currency:'EUR':'symbol':'1.2-2' }}</strong>
+            <span
+              >{{ passengers.length }} pasajero{{
+                passengers.length > 1 ? "s" : ""
+              }}</span
+            >
+            <strong>{{
+              totalPrice | currency: "EUR" : "symbol" : "1.2-2"
+            }}</strong>
           </div>
         </div>
-      }  @else if (error) {
+      } @else if (error) {
         <p class="flight-summary__error">{{ error }}</p>
       }
     </aside>
@@ -33,23 +42,24 @@
     <section class="passenger-form-section">
       <h1 class="passenger-form-section__title">Datos de los pasajeros</h1>
 
+      <!-- Old form      
       <form (ngSubmit)="submit()">
-
-        <!-- Email de contacto -->
-        <div class="form-group">
-          <label class="form-group__label" for="contactEmail">Email de contacto *</label>
+        /// Email de contacto
+        <div formControlName="email" class="form-group">
+          <label class="form-group__label" for="contactEmail"
+            >Email de contacto *</label
+          >
           <input
             id="contactEmail"
             class="form-group__input"
             type="email"
             name="contactEmail"
-            [(ngModel)]="contactEmail"
             placeholder="tu@email.com"
             required
           />
         </div>
 
-        <!-- Pasajeros -->
+        /// Pasajeros
         @for (passenger of passengers; track $index) {
           <div class="passenger-card">
             <h3 class="passenger-card__title">Pasajero {{ $index + 1 }}</h3>
@@ -98,7 +108,9 @@
                   type="text"
                   [name]="'docNumber_' + $index"
                   [(ngModel)]="passenger.documentNumber"
-                  placeholder="{{ passenger.documentType === 'dni' ? '12345678A' : 'AAB123456' }}"
+                  placeholder="{{
+                    passenger.documentType === 'dni' ? '12345678A' : 'AAB123456'
+                  }}"
                   required
                 />
               </div>
@@ -118,12 +130,158 @@
           @if (isSubmitting) {
             <mat-spinner diameter="20" />
           } @else {
-            Confirmar reserva · {{ totalPrice | currency:'EUR':'symbol':'1.2-2' }}
+            Confirmar reserva ·
+            {{ totalPrice | currency: "EUR" : "symbol" : "1.2-2" }}
           }
         </button>
+      </form>
+ -->
 
+      <form [formGroup]="bookingForm" (ngSubmit)="submit()">
+        <!-- Email de contacto -->
+        <mat-form-field appearance="outline" class="form-group">
+          <mat-label>Email de contacto</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            id="contactEmail"
+            type="email"
+            placeholder="tu@email.com"
+          />
+          @if (
+            bookingForm.controls.email.hasError("required") &&
+            bookingForm.controls.email.touched
+          ) {
+            <mat-error>El email es obligatorio</mat-error>
+          } @else if (
+            bookingForm.controls.email.hasError("email") &&
+            bookingForm.controls.email.touched
+          ) {
+            <mat-error>Introduce un email válido</mat-error>
+          }
+        </mat-form-field>
+
+        <fieldset formArrayName="passengersArray">
+          <legend>Passengers</legend>
+          @for (
+            passenger of bookingForm.controls.passengersArray.controls;
+            let i = $index;
+            track i
+          ) {
+            <!-- 
+            Amb aquest formGroupName, fent un binding amb el index 'i',
+            autòmaticament el que hi hagi a dintre del div del propi 
+            formGroupName ja sera la variable que toca:
+
+            formGroupName[0] -> {
+              firstName -> del index 0
+              lastName -> del index 0
+              documentType -> del index 0
+              documentNumber -> del index 0
+            } 
+            -->
+            <div [formGroupName]="i" class="passenger-card__grid">
+              <mat-form-field appearance="outline" class="form-group">
+                <mat-label>Nombre</mat-label>
+                <input
+                  matInput
+                  formControlName="firstName"
+                  type="text"
+                  placeholder="Nombre"
+                />
+                @if (
+                  passenger.controls.firstName.hasError("required") &&
+                  passenger.controls.firstName.touched
+                ) {
+                  <mat-error>El nombre es obligatorio</mat-error>
+                } @else if (
+                  passenger.controls.firstName.hasError("minlength") &&
+                  passenger.controls.firstName.touched
+                ) {
+                  <mat-error>Mínimo 2 caracteres</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-group">
+                <mat-label>Apellidos</mat-label>
+                <input
+                  matInput
+                  formControlName="lastName"
+                  type="text"
+                  placeholder="Apellidos"
+                />
+                @if (
+                  passenger.controls.lastName.hasError("required") &&
+                  passenger.controls.lastName.touched
+                ) {
+                  <mat-error>Los apellidos son obligatorios</mat-error>
+                } @else if (
+                  passenger.controls.lastName.hasError("minlength") &&
+                  passenger.controls.lastName.touched
+                ) {
+                  <mat-error>Mínimo 2 caracteres</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-group">
+                <mat-label>Tipo de documento</mat-label>
+                <mat-select formControlName="documentType">
+                  <mat-option value="dni">DNI</mat-option>
+                  <mat-option value="passport">Pasaporte</mat-option>
+                </mat-select>
+                @if (
+                  passenger.controls.documentType.hasError("required") &&
+                  passenger.controls.documentType.touched
+                ) {
+                  <mat-error>Selecciona un tipo de documento</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-group">
+                <mat-label>Número de documento</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="documentNumber"
+                  [placeholder]="
+                    passenger.controls.documentType.value === 'dni'
+                      ? '12345678A'
+                      : 'AAB123456'
+                  "
+                />
+                @if (
+                  passenger.controls.documentNumber.hasError("required") &&
+                  passenger.controls.documentNumber.touched
+                ) {
+                  <mat-error>El número de documento es obligatorio</mat-error>
+                }
+              </mat-form-field>
+            </div>
+          }
+          <button type="button" (click)="addPassengerFormField()">
+            Add a new passenger
+          </button>
+        </fieldset>
+        @if (error) {
+          <p class="submit-error">{{ error }}</p>
+        }
+
+        <button
+          class="submit-btn"
+          type="submit"
+          [disabled]="isSubmitting || !flight"
+        >
+          @if (isSubmitting) {
+            <mat-spinner diameter="20" />
+          } @else {
+            Confirmar reserva ·
+            {{ totalPrice | currency: "EUR" : "symbol" : "1.2-2" }}
+          }
+        </button>
       </form>
     </section>
-
+    <!-- Preview para hecer debugging del comportamiento del Formulario en tiempo
+    real -->
+    <!-- <pre>{{ bookingForm.value | json }}</pre> -->
   </div>
 </div>

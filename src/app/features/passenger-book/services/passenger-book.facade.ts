@@ -76,17 +76,9 @@ export class PassengerBookFacade {
     this.isCreating.set(false);
     this.error.set(null);
     this.saveSuccess.set(false);
-    this.selectedPassenger.set(passenger);
-    this.isCreating.set(false);
-    this.error.set(null);
-    this.saveSuccess.set(false);
   }
 
   startNew(): void {
-    this.selectedPassenger.set(null);
-    this.isCreating.set(true);
-    this.error.set(null);
-    this.saveSuccess.set(false);
     this.selectedPassenger.set(null);
     this.isCreating.set(true);
     this.error.set(null);
@@ -98,9 +90,6 @@ export class PassengerBookFacade {
   }
 
   save(data: Partial<PassengerProfile>): void {
-    this.isSaving.set(true);
-    this.error.set(null);
-    this.saveSuccess.set(false);
     this.isSaving.set(true);
     this.error.set(null);
     this.saveSuccess.set(false);

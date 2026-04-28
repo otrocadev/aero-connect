@@ -9,11 +9,11 @@ export const flightResolver: ResolveFn<Flight> = (route, state) => {
   const router = inject(Router);
 
   return flightService.getById(route.paramMap.get('id')!).pipe(
-    tap(flight => console.log(flight)),
+    tap((flight) => console.log(flight)),
     //map(...toDto),
-    catchError(error => {
+    catchError((error) => {
       console.log(error);
       return of(new RedirectCommand(router.parseUrl('/home')));
-    })
+    }),
   );
 };
